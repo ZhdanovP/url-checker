@@ -10,4 +10,8 @@ targets:
 
 crystal: 1.0.0
 
+dependencies:
+  tablo:
+    github: hutou/tablo
+
 license: MIT
