@@ -4,7 +4,7 @@ module StatusChecker
   private def self.get_status(url : String)
     response = HTTP::Client.get url
     {url, response.status_code}
-  rescue e : IO::Error | Socket::Addrinfo::Error
+  rescue e : IO::Error | Socket::Addrinfo::Error | OpenSSL::SSL::Error
     {url, e}
   end
 

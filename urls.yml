@@ -3,3 +3,5 @@ urls:
   - http://amazon.co.uk
   - http://localhost:3000
   - http://non-existing-123.com
+  - https://yahoo.co.uk
+  - https://crystal-lang.org
