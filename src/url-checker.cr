@@ -4,16 +4,18 @@ require "./lib/tasks/status_checker"
 require "./lib/tasks/url_generator"
 require "./lib/concurrency_util"
 require "./lib/config"
+require "./lib/diagnostic_logger"
 
 config = Config.load
-
+logger = DiagnosticLogger.new("main")
 url_stream = Channel(String).new
 result_stream = Channel({String, Int32 | Exception}).new
 stats_stream = Channel(Array({String, Stats::Info})).new
 
 every(config.period) {
+  logger.info("sending urls")
   Config.load.urls >> url_stream
-# UrlGenerator.run("./config.yml", url_stream)
+  # UrlGenerator.run("./config.yml", url_stream)
 }
 
 config.workers.times {

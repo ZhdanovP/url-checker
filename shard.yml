@@ -17,4 +17,7 @@ dependencies:
   yaml_mapping:
     github: crystal-lang/yaml_mapping.cr
 
+  logger:
+    github: crystal-lang/logger.cr
+
 license: MIT
