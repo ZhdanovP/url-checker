@@ -3,17 +3,19 @@ require "./lib/tasks/stats_logger"
 require "./lib/tasks/status_checker"
 require "./lib/tasks/url_generator"
 require "./lib/concurrency_util"
+require "./lib/config"
 
-WORKERS = 2
+config = Config.load
+workers = config.workers
 url_stream = Channel(String).new
 result_stream = Channel({String, Int32 | Exception}).new
 stats_stream = Channel(Array({String, Stats::Info})).new
 
-every(2.seconds) {
-UrlGenerator.run("./urls.yml", url_stream)
+every(config.period) {
+  UrlGenerator.run("./config.yml", url_stream)
 }
 
-WORKERS.times {
+workers.times {
   StatusChecker.run(url_stream, result_stream)
 }
 

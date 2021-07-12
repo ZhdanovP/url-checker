@@ -14,4 +14,7 @@ dependencies:
   tablo:
     github: hutou/tablo
 
+  yaml_mapping:
+    github: crystal-lang/yaml_mapping.cr
+
 license: MIT

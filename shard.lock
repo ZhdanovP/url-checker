@@ -4,3 +4,7 @@ shards:
     git: https://github.com/hutou/tablo.git
     version: 0.9.6
 
+  yaml_mapping:
+    git: https://github.com/crystal-lang/yaml_mapping.cr.git
+    version: 0.1.1
+
