@@ -6,13 +6,21 @@ require "./lib/concurrency_util"
 require "./lib/config"
 require "./lib/diagnostic_logger"
 
+include ConcurrencyUtil
+
 config = Config.load
 logger = DiagnosticLogger.new("main")
+interrupt = Channel(Nil).new
 url_stream = Channel(String).new
 result_stream = Channel({String, Int32 | Exception}).new
 stats_stream = Channel(Array({String, Stats::Info})).new
 
-every(config.period) {
+Signal::INT.trap do
+  logger.info("Shutting down")
+  interrupt.send nil
+end
+
+every(config.period, interrupt: interrupt) {
   logger.info("sending urls")
   Config.load.urls >> url_stream
   # UrlGenerator.run("./config.yml", url_stream)
