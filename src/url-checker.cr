@@ -6,16 +6,17 @@ require "./lib/concurrency_util"
 require "./lib/config"
 
 config = Config.load
-workers = config.workers
+
 url_stream = Channel(String).new
 result_stream = Channel({String, Int32 | Exception}).new
 stats_stream = Channel(Array({String, Stats::Info})).new
 
 every(config.period) {
-  UrlGenerator.run("./config.yml", url_stream)
+  Config.load.urls >> url_stream
+# UrlGenerator.run("./config.yml", url_stream)
 }
 
-workers.times {
+config.workers.times {
   StatusChecker.run(url_stream, result_stream)
 }
 
